@@ -181,7 +181,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="price-cell" onclick="orderPerfume('شنل پلاتینیوم', 'پنجاه', '650')">650</td>
+                    <td class="price-cell" onclick="orderPerfume('شنل پلاتینیوم', 'پنجاه', '۶۵۰')">۶۵۰</td>
                     <td class="price-cell" onclick="orderPerfume('شنل پلاتینیوم', 'سی', '۳۹۰')">۳۹۰</td>
                     <td class="price-cell" onclick="orderPerfume('شنل پلاتینیوم', 'بیست', '۲۹۰')">۲۹۰</td>
                     <td class="price-cell" onclick="orderPerfume('شنل پلاتینیوم', 'ده', '۱۷۰')">۱۷۰</td>
@@ -428,29 +428,26 @@
     </div>
 
     <script>
-        function orderPerfume(perfumeName, size, price) {
-            // ایجاد پیام سفارش
-            const message = `سلام، میخوام عطر ${perfumeName} رو در حجم ${size} میل (${price} هزار تومان) سفارش بدم.`;
+    function orderPerfume(perfumeName, size, price) {
+        // ایجاد پیام سفارش
+        const message = `سلام، میخوام عطر ${perfumeName} رو در حجم ${size} میل (${price} هزار تومان) سفارش بدم.`;
+        
+        // تشخیص دستگاه iOS
+        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+        
+        if (isIOS) {
+            // برای iOS از لینک اختصاصی استفاده می‌کنیم
+            window.location.href = `instagram://direct?username=hamsarperfume&text=${encodeURIComponent(message)}`;
             
-            // تشخیص دستگاه کاربر
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            
-            if (isMobile) {
-                // برای موبایل از intent استفاده می‌کنیم
-                const intentUrl = `intent://direct?username=hamsarperfume&text=${encodeURIComponent(message)}#Intent;package=com.instagram.android;scheme=https;end`;
-                
-                // باز کردن intent
-                window.location.href = intentUrl;
-                
-                // اگر بعد از 500ms اینستاگرام باز نشد، به نسخه وب هدایت می‌شویم
-                setTimeout(function() {
-                    window.location.href = `https://instagram.com/direct/t/hamsarperfume?text=${encodeURIComponent(message)}`;
-                }, 500);
-            } else {
-                // برای دسکتاپ
-                window.open(`https://instagram.com/direct/t/hamsarperfume?text=${encodeURIComponent(message)}`, '_blank');
-            }
+            // اگر بعد از 500ms اینستاگرام باز نشد، به نسخه وب هدایت می‌شویم
+            setTimeout(function() {
+                window.location.href = `https://instagram.com/direct/t/hamsarperfume?text=${encodeURIComponent(message)}`;
+            }, 500);
+        } else {
+            // برای سایر دستگاه‌ها (اندروید و دسکتاپ)
+            window.open(`https://instagram.com/direct/t/hamsarperfume?text=${encodeURIComponent(message)}`, '_blank');
         }
-    </script>
+    }
+</script>
 </body>
 </html>
