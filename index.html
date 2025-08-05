@@ -432,19 +432,28 @@
         // ایجاد پیام سفارش
         const message = `سلام، میخوام عطر ${perfumeName} رو در حجم ${size} میل (${price} هزار تومان) سفارش بدم.`;
         
-        // تشخیص دستگاه iOS
-        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+        // تشخیص دستگاه
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        const isAndroid = /Android/i.test(navigator.userAgent);
         
-        if (isIOS) {
-            // برای iOS از لینک اختصاصی استفاده می‌کنیم
-            window.location.href = `instagram://direct?username=hamsarperfume&text=${encodeURIComponent(message)}`;
+        if (isMobile) {
+            // لینک مستقیم به دایرکت hamsarperfume
+            const directUrl = `https://instagram.com/direct/t/hamsarperfume`;
             
-            // اگر بعد از 500ms اینستاگرام باز نشد، به نسخه وب هدایت می‌شویم
-            setTimeout(function() {
-                window.location.href = `https://instagram.com/direct/t/hamsarperfume?text=${encodeURIComponent(message)}`;
-            }, 500);
+            if (isAndroid) {
+                // برای اندروید از intent استفاده می‌کنیم
+                window.location.href = `intent://direct/t/hamsarperfume#Intent;package=com.instagram.android;scheme=https;action=android.intent.action.VIEW;S.text=${encodeURIComponent(message)};end`;
+            } else {
+                // برای iOS
+                window.location.href = `instagram://direct?username=hamsarperfume&text=${encodeURIComponent(message)}`;
+            }
+            
+            // فال‌بک به نسخه وب بعد از 1 ثانیه
+            setTimeout(() => {
+                window.location.href = `${directUrl}?text=${encodeURIComponent(message)}`;
+            }, 1000);
         } else {
-            // برای سایر دستگاه‌ها (اندروید و دسکتاپ)
+            // برای دسکتاپ
             window.open(`https://instagram.com/direct/t/hamsarperfume?text=${encodeURIComponent(message)}`, '_blank');
         }
     }
