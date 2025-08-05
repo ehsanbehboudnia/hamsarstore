@@ -429,14 +429,25 @@
 
     <script>
     function orderPerfume(perfumeName, size, price) {
-        // ایجاد پیام سفارش
         const message = `سلام، میخوام عطر ${perfumeName} رو در حجم ${size} میل (${price} هزار تومان) سفارش بدم.`;
+        const directUrl = `https://www.instagram.com/hamsarperfume`;
         
-        // لینک مستقیم به دایرکت hamsarperfume با متن پیش‌نویس شده
-        const directUrl = `https://www.instagram.com/direct/t/hamsarperfume/?text=${encodeURIComponent(message)}`;
-        
-        // باز کردن لینک در یک تب/پنجره جدید
+        // باز کردن پروفایل و سپس دستور ارسال پیام
         window.open(directUrl, '_blank');
+        
+        // نمایش متن برای کپی
+        alert("پیام زیر کپی شد، در دایرکت پیست کنید:\n\n" + message);
+        copyToClipboard(message);
+    }
+    
+    // تابع کمکی برای کپی متن
+    function copyToClipboard(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
     }
 </script>
 </body>
