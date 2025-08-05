@@ -435,12 +435,12 @@
         // کپی پیام به کلیپ‌بورد
         copyToClipboard(message);
         
-        // هدایت مستقیم به دایرکت hamsarperfume
-        const directUrl = `https://www.instagram.com/direct/t/hamsarperfume/`;
-        window.open(directUrl, '_blank');
+        // هدایت به پی‌وی تلگرام
+        const telegramUrl = `https://t.me/ehsanbehboudnia`;
+        window.open(telegramUrl, '_blank');
         
         // نمایش پیام راهنما
-        showNotification("پیام سفارش کپی شد! در صفحه‌ای که باز شد، پیست کنید.");
+        showNotification("پیام سفارش کپی شد! در تلگرام، روی دکمه «شروع» کلیک کنید و پیام را پیست کنید.");
     }
     
     // تابع کمکی برای کپی متن
@@ -468,7 +468,7 @@
         notification.style.position = 'fixed';
         notification.style.bottom = '20px';
         notification.style.right = '20px';
-        notification.style.backgroundColor = '#4CAF50';
+        notification.style.backgroundColor = '#0088cc';
         notification.style.color = 'white';
         notification.style.padding = '15px 25px';
         notification.style.borderRadius = '5px';
