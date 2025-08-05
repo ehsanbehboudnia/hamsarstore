@@ -429,15 +429,18 @@
 
     <script>
     function orderPerfume(perfumeName, size, price) {
+        // ایجاد پیام سفارش
         const message = `سلام، میخوام عطر ${perfumeName} رو در حجم ${size} میل (${price} هزار تومان) سفارش بدم.`;
-        const directUrl = `https://www.instagram.com/hamsarperfume`;
         
-        // باز کردن پروفایل و سپس دستور ارسال پیام
+        // کپی پیام به کلیپ‌بورد
+        copyToClipboard(message);
+        
+        // هدایت مستقیم به دایرکت hamsarperfume
+        const directUrl = `https://www.instagram.com/direct/t/hamsarperfume/`;
         window.open(directUrl, '_blank');
         
-        // نمایش متن برای کپی
-        alert("پیام زیر کپی شد، در دایرکت پیست کنید:\n\n" + message);
-        copyToClipboard(message);
+        // نمایش پیام راهنما
+        showNotification("پیام سفارش کپی شد! در صفحه‌ای که باز شد، پیست کنید.");
     }
     
     // تابع کمکی برای کپی متن
@@ -448,6 +451,59 @@
         textarea.select();
         document.execCommand('copy');
         document.body.removeChild(textarea);
+    }
+    
+    // تابع نمایش نوتیفیکیشن
+    function showNotification(message) {
+        // حذف نوتیفیکیشن قبلی اگر وجود داشته باشد
+        const oldNotification = document.getElementById('custom-notification');
+        if (oldNotification) {
+            document.body.removeChild(oldNotification);
+        }
+        
+        // ایجاد عنصر نوتیفیکیشن
+        const notification = document.createElement('div');
+        notification.id = 'custom-notification';
+        notification.textContent = message;
+        notification.style.position = 'fixed';
+        notification.style.bottom = '20px';
+        notification.style.right = '20px';
+        notification.style.backgroundColor = '#4CAF50';
+        notification.style.color = 'white';
+        notification.style.padding = '15px 25px';
+        notification.style.borderRadius = '5px';
+        notification.style.zIndex = '10000';
+        notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+        notification.style.fontFamily = "'Noto Naskh Arabic', serif";
+        notification.style.fontSize = '16px';
+        notification.style.animation = 'fadeIn 0.5s';
+        
+        // اضافه کردن استایل انیمیشن
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes fadeOut {
+                from { opacity: 1; transform: translateY(0); }
+                to { opacity: 0; transform: translateY(20px); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // اضافه کردن نوتیفیکیشن به صفحه
+        document.body.appendChild(notification);
+        
+        // حذف خودکار پس از 5 ثانیه
+        setTimeout(() => {
+            notification.style.animation = 'fadeOut 0.5s';
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 500);
+        }, 5000);
     }
 </script>
 </body>
